@@ -49,54 +49,10 @@ jobs:
           swift package resolve
           echo "✓ Packages resolved"
 
-      - name: Build MLX metallib
+      - name: Build App Bundle
         run: |
-          echo "=== Building MLX metallib ==="
-          cd .build/checkouts/speech-swift
-          swift build -c release --disable-sandbox
-          chmod +x scripts/build_mlx_metallib.sh
-          ./scripts/build_mlx_metallib.sh release
-          cd ../..
-          echo "✓ MLX metallib built"
-
-      - name: Build SubScript
-        run: |
-          echo "=== Building SubScript ==="
-          swift build -c release --disable-sandbox
-          cp .build/checkouts/speech-swift/.build/release/mlx.metallib .build/release/
-          echo "✓ Build complete"
-
-      - name: Create App Bundle
-        run: |
-          echo "=== Creating App Bundle ==="
-          BUILD_DIR=.build/release
-          APP_BUNDLE=$BUILD_DIR/SubScript.app
-
-          mkdir -p $APP_BUNDLE/Contents/MacOS
-          mkdir -p $APP_BUNDLE/Contents/Resources
-
-          # Copy executable
-          cp $BUILD_DIR/SubScript $APP_BUNDLE/Contents/MacOS/SubScript
-          chmod +x $APP_BUNDLE/Contents/MacOS/SubScript
-
-          # Copy metallib
-          cp .build/checkouts/speech-swift/.build/release/mlx.metallib $APP_BUNDLE/Contents/MacOS/
-
-          # Copy FFmpeg
-          cp Sources/SubScript/Resources/Binaries/ffmpeg $APP_BUNDLE/Contents/Resources/
-
-          # Copy localization files
-          cp -R Sources/SubScript/Resources/*.lproj $APP_BUNDLE/Contents/Resources/ 2>/dev/null || true
-
-          # Copy app icons if available
-          ICON_SET=Sources/SubScript/Assets.xcassets/AppIcon.appiconset
-          if [ -d "$ICON_SET" ]; then
-            cp $ICON_SET/* $APP_BUNDLE/Contents/Resources/ 2>/dev/null || true
-          fi
-
-          # Code sign
-          codesign --force --deep --sign - $APP_BUNDLE
-
+          echo "=== Building App Bundle ==="
+          make bundle
           echo "✓ App bundle created"
 
       - name: Create DMG
