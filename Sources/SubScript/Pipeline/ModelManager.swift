@@ -81,16 +81,15 @@ final class ModelManager {
             let loadedAsr = try await Qwen3ASRModel.fromPretrained(modelId: modelId)
             
             log(String(localized: "model_log_vad_loading"))
-            let loadedVad: VADModelProtocol? = {
-                switch vadType {
-                case .silero:
-                    log(String(localized: "model_log_vad_silero"))
-                    return try await SileroVADModel.fromPretrained()
-                case .fireRed:
-                    log(String(localized: "model_log_vad_firered"))
-                    return try await FireRedVADModel.fromPretrained()
-                }
-            }()
+            let loadedVad: VADModelProtocol?
+            switch vadType {
+            case .silero:
+                log(String(localized: "model_log_vad_silero"))
+                loadedVad = try await SileroVADModel.fromPretrained()
+            case .fireRed:
+                log(String(localized: "model_log_vad_firered"))
+                loadedVad = try await FireRedVADModel.fromPretrained()
+            }
             
             self.asr = loadedAsr
             self.vad = loadedVad
