@@ -1,0 +1,14 @@
+.build/
+.vscode/
+xcuserdata/
+.DS_Store
+*.log
+test.md
+SubScript.xcodeproj/
+Package.resolved
+test/*
+*.dmg
+Sources/SubScript/Resources/Binaries/ffmpeg
+.claude/
+SubScript_ClaudeCode_Prompt.md
+

@@ -1,0 +1,205 @@
+/* Home View */
+"home_title" = "SubScript";
+"home_drop_zone" = "将音频/视频文件拖到这里";
+"home_browse_button" = "浏览文件";
+"home_recent_files" = "最近文件";
+
+/* Processing View */
+"processing_preparing" = "准备中...";
+"processing_reading" = "开始读取...";
+"processing_vad" = "检测语音片段...";
+"processing_transcribing" = "转写中...";
+"processing_capturing" = "捕获字幕中...";
+"processing_cancelling" = "取消中...";
+"processing_subtitles_label" = "字幕";
+"processing_cancel" = "取消";
+"processing_waiting" = "等待识别...";
+"processing_done" = "完成";
+
+/* Settings View */
+"settings_title" = "模型设置";
+"settings_language" = "识别语言";
+"settings_language_label" = "语言";
+"settings_dialect_label" = "方言";
+"lang_auto" = "自动识别";
+"lang_zh" = "中文";
+"lang_en" = "英语";
+"lang_yue" = "粤语";
+"lang_ar" = "阿拉伯语";
+"lang_de" = "德语";
+"lang_fr" = "法语";
+"lang_es" = "西班牙语";
+"lang_pt" = "葡萄牙语";
+"lang_id" = "印尼语";
+"lang_it" = "意大利语";
+"lang_ko" = "韩语";
+"lang_ru" = "俄语";
+"lang_th" = "泰语";
+"lang_vi" = "越南语";
+"lang_ja" = "日语";
+"lang_tr" = "土耳其语";
+"lang_hi" = "印地语";
+"lang_ms" = "马来语";
+"lang_nl" = "荷兰语";
+"lang_sv" = "瑞典语";
+"lang_da" = "丹麦语";
+"lang_fi" = "芬兰语";
+"lang_pl" = "波兰语";
+"lang_cs" = "捷克语";
+"lang_fil" = "菲律宾语";
+"lang_fa" = "波斯语";
+"lang_el" = "希腊语";
+"lang_hu" = "匈牙利语";
+"lang_mk" = "马其顿语";
+"lang_ro" = "罗马尼亚语";
+"dialect_mandarin" = "普通话";
+"dialect_anhui" = "安徽话";
+"dialect_dongbei" = "东北话";
+"dialect_fujian" = "福建话";
+"dialect_gansu" = "甘肃话";
+"dialect_guizhou" = "贵州话";
+"dialect_hebei" = "河北话";
+"dialect_henan" = "河南话";
+"dialect_hubei" = "湖北话";
+"dialect_hunan" = "湖南话";
+"dialect_jiangxi" = "江西话";
+"dialect_ningxia" = "宁夏话";
+"dialect_shandong" = "山东话";
+"dialect_shaanxi" = "陕西话";
+"dialect_shanxi" = "山西话";
+"dialect_sichuan" = "四川话";
+"dialect_tianjin" = "天津话";
+"dialect_yunnan" = "云南话";
+"dialect_zhejiang" = "浙江话";
+"dialect_cantonese_hk" = "粤语(香港)";
+"dialect_cantonese_gd" = "粤语(广东)";
+"dialect_wu" = "吴语";
+"dialect_minnan" = "闽南语";
+"settings_asr_model" = "ASR 模型";
+"settings_size" = "大小";
+"settings_precision" = "精度";
+"settings_vad_model" = "VAD 模型";
+"settings_vad_engine" = "VAD 引擎";
+"settings_translation_model" = "翻译模型";
+"settings_translation_quantization" = "质量";
+"settings_apply" = "应用";
+"settings_cancel" = "取消";
+"settings_applying" = "正在应用设置并重新载入模型...";
+"results_speed_label" = "播放速度";
+
+/* Results View */
+"results_no_video" = "无视频";
+"results_search_placeholder" = "搜索字幕...";
+"results_subtitles_count" = "%lld 条字幕";
+"results_duration_label" = "时长 %@";
+"results_export_button" = "导出";
+"results_burn_button" = "烧录";
+"results_edit_start" = "开始";
+"results_edit_end" = "结束";
+"results_show_bilingual" = "显示双语字幕";
+"results_duration" = "时长 %@";
+
+/* Translation Panel */
+"translation_target_language" = "目标语言";
+"translation_cancel" = "取消";
+"translation_button" = "翻译";
+"translation_loading_model" = "正在加载翻译模型...";
+"translation_progress" = "已翻译 %lld / %lld";
+
+/* Export View */
+"export_title" = "导出字幕";
+"export_subtitles_count" = "%lld 条字幕";
+"export_format_label" = "格式";
+"export_options_label" = "选项";
+"export_include_timestamps" = "包含时间戳";
+"export_speaker_labels" = "说话人标注";
+"export_bilingual" = "双语字幕 (Pro)";
+"export_cancel" = "取消";
+"export_button" = "导出";
+
+/* Burn Options View */
+"burn_settings_title" = "烧录设置";
+"burn_video_codec" = "视频编码";
+"burn_codec_label" = "编码器";
+"burn_quality_label" = "质量";
+"burn_crf_label" = "CRF: %lld";
+"burn_style_label" = "字幕样式";
+"burn_font_size_label" = "字体大小: %lldpt";
+"burn_position_label" = "位置";
+"burn_shadow_label" = "启用阴影";
+"burn_color_label" = "颜色";
+"burn_primary_color" = "字幕颜色";
+"burn_outline_color" = "描边颜色";
+"burn_outline_width_label" = "描边宽度: %lldpx";
+"burn_output_format_label" = "输出格式";
+"burn_format_label" = "格式";
+"burn_default_folder" = "默认 Movies 目录";
+"burn_select_button" = "选择";
+"burn_cancel" = "取消";
+"burn_start_button" = "开始烧录";
+"burn_section_video_codec" = "视频编码";
+"burn_section_subtitle_style" = "字幕样式";
+"burn_section_color" = "颜色";
+"burn_section_output_format" = "输出格式";
+"burn_folder_label" = "输出文件夹";
+
+/* Burn Progress View */
+"burn_progress_title_done" = "烧录完成";
+"burn_progress_title_processing" = "烧录字幕中...";
+"burn_progress_done" = "烧录完成！";
+"burn_progress_show_in_finder" = "在访达中显示";
+"burn_progress_cancel" = "取消";
+"burn_progress_close" = "关闭";
+"burn_error_no_video" = "未找到视频文件";
+
+/* Logger */
+"logger_title" = "调试日志";
+"logger_auto_scroll" = "自动滚动";
+"logger_copy_all" = "复制全部";
+"logger_copied" = "已复制";
+"logger_clear" = "清空";
+"logger_search_placeholder" = "搜索日志...";
+"logger_level_all" = "全部";
+"logger_level" = "级别";
+"logger_module_all" = "全部模块";
+"logger_module" = "模块";
+"logger_entries_count" = "%lld 条";
+
+/* App */
+"app_debug_menu" = "调试";
+"app_show_log_panel" = "显示日志面板";
+
+/* Translation Errors */
+"translation_model_not_loaded" = "翻译模型未加载";
+"translation_no_subtitles" = "没有可翻译的字幕";
+"translation_failed" = "翻译失败：%@";
+"translation_model_loading_failed" = "模型加载失败：%@";
+
+/* Audio Errors */
+"audio_no_track" = "文件中没有音频轨道";
+"audio_extract_failed" = "音频提取失败：%@";
+"audio_unsupported_format" = "不支持的文件格式";
+"audio_read_failed" = "读取失败";
+
+/* Transcription Errors */
+"transcription_models_not_loaded" = "模型尚未加载";
+"transcription_no_audio_track" = "文件中没有音频轨道";
+"transcription_read_failed" = "读取失败：%@";
+
+/* Processing Steps */
+"pipeline_reading" = "开始读取...";
+"pipeline_organizing" = "整理字幕...";
+"pipeline_done" = "完成";
+
+/* Model Manager */
+"model_log_loading_start" = "正在加载模型 (大小: %@, 精度: %@)...";
+"model_log_ready" = "模型已就绪，无需重复加载";
+"model_log_changed" = "配置已变更，正在卸载旧模型...";
+"model_log_asr_prep" = "准备下载/载入 ASR 模型: %@...";
+"model_log_asr_loading" = "ASR 模型载入中，准备载入 VAD...";
+"model_log_vad_silero" = "载入 Silero VAD...";
+"model_log_vad_firered" = "载入 FireRed VAD...";
+"model_log_syncing" = "正在最终同步模型状态...";
+"model_log_success" = "模型加载成功！";
+"model_log_error" = "错误: %@";
+"model_log_failed" = "模型加载失败：%@";

@@ -1,0 +1,129 @@
+name: Build and Create DMG
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+  workflow_dispatch:
+
+env:
+  PROJECT_NAME: SubScript
+  BUILD_TYPE: release
+
+jobs:
+  build:
+    name: Build SubScript and Create DMG
+    runs-on: macos-15
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Select Xcode
+        run: sudo xcode-select -s /Applications/Xcode_16.4.app/Contents/Developer
+
+      - name: Show Swift version
+        run: swift --version
+
+      - name: Create Binaries directory
+        run: mkdir -p Sources/SubScript/Resources/Binaries
+
+      - name: Download FFmpeg
+        run: |
+          echo "Downloading FFmpeg..."
+          curl -L "https://evermeet.cx/ffmpeg/getrelease/zip" -o ffmpeg.zip
+          unzip -o ffmpeg.zip
+          mv ffmpeg Sources/SubScript/Resources/Binaries/
+          chmod +x Sources/SubScript/Resources/Binaries/ffmpeg
+          rm ffmpeg.zip
+          echo "✓ FFmpeg downloaded"
+
+      - name: Install Metal Toolchain
+        run: |
+          echo "=== Installing Metal Toolchain ==="
+          xcodebuild -downloadComponent MetalToolchain
+          echo "✓ Metal Toolchain installed"
+
+      - name: Resolve SPM packages
+        run: |
+          echo "=== Resolving SPM packages ==="
+          swift package resolve
+          echo "✓ Packages resolved"
+
+      - name: Build MLX metallib
+        run: |
+          echo "=== Building MLX metallib ==="
+          cd .build/checkouts/speech-swift
+          swift build -c release --disable-sandbox
+          chmod +x scripts/build_mlx_metallib.sh
+          ./scripts/build_mlx_metallib.sh release
+          cd ../..
+          echo "✓ MLX metallib built"
+
+      - name: Build SubScript
+        run: |
+          echo "=== Building SubScript ==="
+          swift build -c release --disable-sandbox
+          cp .build/checkouts/speech-swift/.build/release/mlx.metallib .build/release/
+          echo "✓ Build complete"
+
+      - name: Create App Bundle
+        run: |
+          echo "=== Creating App Bundle ==="
+          BUILD_DIR=.build/release
+          APP_BUNDLE=$BUILD_DIR/SubScript.app
+
+          mkdir -p $APP_BUNDLE/Contents/MacOS
+          mkdir -p $APP_BUNDLE/Contents/Resources
+
+          # Copy executable
+          cp $BUILD_DIR/SubScript $APP_BUNDLE/Contents/MacOS/SubScript
+          chmod +x $APP_BUNDLE/Contents/MacOS/SubScript
+
+          # Copy metallib
+          cp .build/checkouts/speech-swift/.build/release/mlx.metallib $APP_BUNDLE/Contents/MacOS/
+
+          # Copy FFmpeg
+          cp Sources/SubScript/Resources/Binaries/ffmpeg $APP_BUNDLE/Contents/Resources/
+
+          # Copy localization files
+          cp -R Sources/SubScript/Resources/*.lproj $APP_BUNDLE/Contents/Resources/ 2>/dev/null || true
+
+          # Copy app icons if available
+          ICON_SET=Sources/SubScript/Assets.xcassets/AppIcon.appiconset
+          if [ -d "$ICON_SET" ]; then
+            cp $ICON_SET/* $APP_BUNDLE/Contents/Resources/ 2>/dev/null || true
+          fi
+
+          # Code sign
+          codesign --force --deep --sign - $APP_BUNDLE
+
+          echo "✓ App bundle created"
+
+      - name: Create DMG
+        run: |
+          echo "=== Creating DMG Image ==="
+          rm -rf /tmp/SubScriptDMG
+          mkdir -p /tmp/SubScriptDMG
+
+          cp -R .build/release/SubScript.app /tmp/SubScriptDMG/
+          ln -s /Applications /tmp/SubScriptDMG/Applications
+
+          hdiutil create -volname "SubScript" -srcfolder /tmp/SubScriptDMG -ov -format UDZO SubScript.dmg
+          rm -rf /tmp/SubScriptDMG
+          echo "✓ DMG created: SubScript.dmg"
+
+      - name: Upload DMG artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: SubScript-DMG
+          path: SubScript.dmg
+          retention-days: 30
+
+      - name: Upload App artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: SubScript-App
+          path: .build/release/SubScript.app
+          retention-days: 30

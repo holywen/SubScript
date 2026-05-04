@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN"
+  "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <!-- 沙盒关闭（直销模式）-->
+  <key>com.apple.security.app-sandbox</key><false/>
+
+  <!-- 用户主动选择的文件读写（NSOpenPanel / NSSavePanel）-->
+  <key>com.apple.security.files.user-selected.read-write</key><true/>
+
+  <!-- 模型文件存储目录（Application Support）-->
+  <key>com.apple.security.files.downloads.read-write</key><true/>
+
+  <!-- 用于 StoreKit 收据验证（仅需 outgoing）-->
+  <key>com.apple.security.network.client</key><true/>
+</dict>
+</plist>

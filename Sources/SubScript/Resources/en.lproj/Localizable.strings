@@ -1,0 +1,205 @@
+/* Home View */
+"home_title" = "SubScript";
+"home_drop_zone" = "Drop audio/video files here";
+"home_browse_button" = "Browse Files";
+"home_recent_files" = "Recent Files";
+
+/* Processing View */
+"processing_preparing" = "Preparing...";
+"processing_reading" = "Reading...";
+"processing_vad" = "Analyzing voice activity...";
+"processing_transcribing" = "Transcribing...";
+"processing_capturing" = "Capturing subtitles...";
+"processing_cancelling" = "Cancelling...";
+"processing_subtitles_label" = "Subtitles";
+"processing_cancel" = "Cancel";
+"processing_waiting" = "Waiting for recognition...";
+"processing_done" = "Done";
+
+/* Settings View */
+"settings_title" = "Model Settings";
+"settings_language" = "Recognition Language";
+"settings_language_label" = "Language";
+"settings_dialect_label" = "Dialect";
+"lang_auto" = "Auto Detect";
+"lang_zh" = "Chinese";
+"lang_en" = "English";
+"lang_yue" = "Cantonese";
+"lang_ar" = "Arabic";
+"lang_de" = "German";
+"lang_fr" = "French";
+"lang_es" = "Spanish";
+"lang_pt" = "Portuguese";
+"lang_id" = "Indonesian";
+"lang_it" = "Italian";
+"lang_ko" = "Korean";
+"lang_ru" = "Russian";
+"lang_th" = "Thai";
+"lang_vi" = "Vietnamese";
+"lang_ja" = "Japanese";
+"lang_tr" = "Turkish";
+"lang_hi" = "Hindi";
+"lang_ms" = "Malay";
+"lang_nl" = "Dutch";
+"lang_sv" = "Swedish";
+"lang_da" = "Danish";
+"lang_fi" = "Finnish";
+"lang_pl" = "Polish";
+"lang_cs" = "Czech";
+"lang_fil" = "Filipino";
+"lang_fa" = "Persian";
+"lang_el" = "Greek";
+"lang_hu" = "Hungarian";
+"lang_mk" = "Macedonian";
+"lang_ro" = "Romanian";
+"dialect_mandarin" = "Mandarin";
+"dialect_anhui" = "Anhui";
+"dialect_dongbei" = "Dongbei";
+"dialect_fujian" = "Fujian";
+"dialect_gansu" = "Gansu";
+"dialect_guizhou" = "Guizhou";
+"dialect_hebei" = "Hebei";
+"dialect_henan" = "Henan";
+"dialect_hubei" = "Hubei";
+"dialect_hunan" = "Hunan";
+"dialect_jiangxi" = "Jiangxi";
+"dialect_ningxia" = "Ningxia";
+"dialect_shandong" = "Shandong";
+"dialect_shaanxi" = "Shaanxi";
+"dialect_shanxi" = "Shanxi";
+"dialect_sichuan" = "Sichuan";
+"dialect_tianjin" = "Tianjin";
+"dialect_yunnan" = "Yunnan";
+"dialect_zhejiang" = "Zhejiang";
+"dialect_cantonese_hk" = "Cantonese (Hong Kong)";
+"dialect_cantonese_gd" = "Cantonese (Guangdong)";
+"dialect_wu" = "Wu";
+"dialect_minnan" = "Minnan";
+"settings_asr_model" = "ASR Model";
+"settings_size" = "Size";
+"settings_precision" = "Precision";
+"settings_vad_model" = "VAD Model";
+"settings_vad_engine" = "VAD Engine";
+"settings_translation_model" = "Translation Model";
+"settings_translation_quantization" = "Quality";
+"settings_apply" = "Apply";
+"settings_cancel" = "Cancel";
+"settings_applying" = "Applying settings and reloading models...";
+"results_speed_label" = "Playback Speed";
+
+/* Results View */
+"results_no_video" = "No video";
+"results_search_placeholder" = "Search subtitles...";
+"results_subtitles_count" = "%lld subtitles";
+"results_duration_label" = "Duration %@";
+"results_export_button" = "Export";
+"results_burn_button" = "Burn";
+"results_edit_start" = "Start";
+"results_edit_end" = "End";
+"results_show_bilingual" = "Show bilingual subtitles";
+"results_duration" = "Duration %@";
+
+/* Translation Panel */
+"translation_target_language" = "Target Language";
+"translation_cancel" = "Cancel";
+"translation_button" = "Translate";
+"translation_loading_model" = "Loading translation model...";
+"translation_progress" = "Translated %lld / %lld";
+
+/* Export View */
+"export_title" = "Export Subtitles";
+"export_subtitles_count" = "%lld subtitles";
+"export_format_label" = "Format";
+"export_options_label" = "Options";
+"export_include_timestamps" = "Include timestamps";
+"export_speaker_labels" = "Speaker labels";
+"export_bilingual" = "Bilingual subtitles (Pro)";
+"export_cancel" = "Cancel";
+"export_button" = "Export";
+
+/* Burn Options View */
+"burn_settings_title" = "Burn Settings";
+"burn_video_codec" = "Video Codec";
+"burn_codec_label" = "Encoder";
+"burn_quality_label" = "Quality";
+"burn_crf_label" = "CRF: %lld";
+"burn_style_label" = "Subtitle Style";
+"burn_font_size_label" = "Font size: %lldpt";
+"burn_position_label" = "Position";
+"burn_shadow_label" = "Enable shadow";
+"burn_color_label" = "Color";
+"burn_primary_color" = "Primary Color";
+"burn_outline_color" = "Outline Color";
+"burn_outline_width_label" = "Outline width: %lldpx";
+"burn_output_format_label" = "Output Format";
+"burn_format_label" = "Format";
+"burn_default_folder" = "Default Movies directory";
+"burn_select_button" = "Select";
+"burn_cancel" = "Cancel";
+"burn_start_button" = "Start Burn";
+"burn_section_video_codec" = "Video Codec";
+"burn_section_subtitle_style" = "Subtitle Style";
+"burn_section_color" = "Color";
+"burn_section_output_format" = "Output Format";
+"burn_folder_label" = "Output Folder";
+
+/* Burn Progress View */
+"burn_progress_title_done" = "Burn Complete";
+"burn_progress_title_processing" = "Burning subtitles...";
+"burn_progress_done" = "Burn Complete!";
+"burn_progress_show_in_finder" = "Show in Finder";
+"burn_progress_cancel" = "Cancel";
+"burn_progress_close" = "Close";
+"burn_error_no_video" = "No video file found";
+
+/* Logger */
+"logger_title" = "Debug Log";
+"logger_auto_scroll" = "Auto scroll";
+"logger_copy_all" = "Copy All";
+"logger_copied" = "Copied";
+"logger_clear" = "Clear";
+"logger_search_placeholder" = "Search logs...";
+"logger_level_all" = "All";
+"logger_level" = "Level";
+"logger_module_all" = "All Modules";
+"logger_module" = "Module";
+"logger_entries_count" = "%lld entries";
+
+/* App */
+"app_debug_menu" = "Debug";
+"app_show_log_panel" = "Show Log Panel";
+
+/* Translation Errors */
+"translation_model_not_loaded" = "Translation model not loaded";
+"translation_no_subtitles" = "No subtitles to translate";
+"translation_failed" = "Translation failed: %@";
+"translation_model_loading_failed" = "Model loading failed: %@";
+
+/* Audio Errors */
+"audio_no_track" = "No audio track in file";
+"audio_extract_failed" = "Audio extraction failed: %@";
+"audio_unsupported_format" = "Unsupported file format";
+"audio_read_failed" = "Read failed";
+
+/* Transcription Errors */
+"transcription_models_not_loaded" = "Models not loaded";
+"transcription_no_audio_track" = "No audio track in file";
+"transcription_read_failed" = "Read failed: %@";
+
+/* Processing Steps */
+"pipeline_reading" = "Reading...";
+"pipeline_organizing" = "Organizing subtitles...";
+"pipeline_done" = "Done";
+
+/* Model Manager */
+"model_log_loading_start" = "Loading models (Size: %@, Precision: %@)...";
+"model_log_ready" = "Models already loaded and match configuration. Skipping.";
+"model_log_changed" = "Configuration changed. Unloading existing models...";
+"model_log_asr_prep" = "Preparing to load ASR model: %@...";
+"model_log_asr_loading" = "ASR model loading, preparing VAD...";
+"model_log_vad_silero" = "Loading Silero VAD...";
+"model_log_vad_firered" = "Loading FireRed VAD...";
+"model_log_syncing" = "Synchronizing model states...";
+"model_log_success" = "Models loaded successfully!";
+"model_log_error" = "Error: %@";
+"model_log_failed" = "Model loading failed: %@";
