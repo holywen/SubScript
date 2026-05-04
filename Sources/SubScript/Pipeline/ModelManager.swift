@@ -4,9 +4,11 @@ import Observation
 import AudioCommon
 import Foundation
 
-public protocol VADModelProtocol: @unchecked Sendable {
+public protocol VADModelProtocol {
     func detectSpeech(audio: [Float], sampleRate: Int) -> [SpeechSegment]
 }
+
+public typealias SendableVADModel = @unchecked Sendable VADModelProtocol
 
 extension SileroVADModel: VADModelProtocol {}
 extension FireRedVADModel: VADModelProtocol {}
@@ -22,7 +24,7 @@ final class ModelManager {
     var statusMessage: String = ""
     
     private(set) var asr: Qwen3ASRModel?
-    private(set) var vad: VADModelProtocol?
+    private(set) var vad: SendableVADModel?
     
     private var loadedSize: AppState.ASRModelSize?
     private var loadedPrecision: AppState.ASRPrecision?
@@ -80,7 +82,7 @@ final class ModelManager {
             async let asrLoad = Qwen3ASRModel.fromPretrained(modelId: modelId)
             log(String(localized: "model_log_asr_loading"))
             
-            async let vadLoad: VADModelProtocol? = {
+            async let vadLoad: SendableVADModel? = {
                 switch vadType {
                 case .silero: 
                     log(String(localized: "model_log_vad_silero"))
