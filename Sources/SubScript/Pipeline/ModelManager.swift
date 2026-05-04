@@ -4,11 +4,9 @@ import Observation
 import AudioCommon
 import Foundation
 
-public protocol VADModelProtocol {
+public protocol VADModelProtocol: AnyObject {
     func detectSpeech(audio: [Float], sampleRate: Int) -> [SpeechSegment]
 }
-
-public typealias SendableVADModel = @unchecked Sendable VADModelProtocol
 
 extension SileroVADModel: VADModelProtocol {}
 extension FireRedVADModel: VADModelProtocol {}
@@ -24,7 +22,7 @@ final class ModelManager {
     var statusMessage: String = ""
     
     private(set) var asr: Qwen3ASRModel?
-    private(set) var vad: SendableVADModel?
+    private(set) var vad: VADModelProtocol?
     
     private var loadedSize: AppState.ASRModelSize?
     private var loadedPrecision: AppState.ASRPrecision?
@@ -79,22 +77,20 @@ final class ModelManager {
             let modelId = "aufklarer/Qwen3-ASR-\(sizeTag)-MLX-\(precisionTag)"
             log(String(localized: "model_log_asr_prep").replacingOccurrences(of: "%@", with: modelId))
             
-            async let asrLoad = Qwen3ASRModel.fromPretrained(modelId: modelId)
             log(String(localized: "model_log_asr_loading"))
+            let loadedAsr = try await Qwen3ASRModel.fromPretrained(modelId: modelId)
             
-            async let vadLoad: SendableVADModel? = {
+            log(String(localized: "model_log_vad_loading"))
+            let loadedVad: VADModelProtocol? = {
                 switch vadType {
-                case .silero: 
+                case .silero:
                     log(String(localized: "model_log_vad_silero"))
                     return try await SileroVADModel.fromPretrained()
-                case .fireRed: 
+                case .fireRed:
                     log(String(localized: "model_log_vad_firered"))
                     return try await FireRedVADModel.fromPretrained()
                 }
             }()
-            
-            log(String(localized: "model_log_syncing"))
-            let (loadedAsr, loadedVad) = try await (asrLoad, vadLoad)
             
             self.asr = loadedAsr
             self.vad = loadedVad
