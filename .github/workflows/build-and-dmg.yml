@@ -14,14 +14,14 @@ env:
 jobs:
   build:
     name: Build SubScript and Create DMG
-    runs-on: macos-14
+    runs-on: macos-15
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
       - name: Select Xcode
-        run: sudo xcode-select -s /Applications/Xcode_16.5.app/Contents/Developer && swift --version
+        run: sudo xcode-select -s /Applications/Xcode_16.4.app/Contents/Developer && swift --version
 
       - name: Create Binaries directory
         run: mkdir -p Sources/SubScript/Resources/Binaries
@@ -53,7 +53,7 @@ jobs:
         run: |
           echo "=== Building MLX metallib ==="
           cd .build/checkouts/speech-swift
-          swift build -c release --disable-sandbox -Xswiftc -strict-concurrency=complete
+          swift build -c release --disable-sandbox
           chmod +x scripts/build_mlx_metallib.sh
           ./scripts/build_mlx_metallib.sh release
           cd ../..
@@ -62,7 +62,7 @@ jobs:
       - name: Build SubScript
         run: |
           echo "=== Building SubScript ==="
-          swift build -c release --disable-sandbox -Xswiftc -strict-concurrency=complete
+          swift build -c release --disable-sandbox
           cp .build/checkouts/speech-swift/.build/release/mlx.metallib .build/release/
           echo "✓ Build complete"
 
