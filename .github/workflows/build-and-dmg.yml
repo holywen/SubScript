@@ -39,11 +39,12 @@ jobs:
           rm ffmpeg.zip
           echo "✓ FFmpeg downloaded"
 
-      - name: Install Metal Toolchain
+      - name: Metal Toolchain
         run: |
-          echo "=== Installing Metal Toolchain ==="
-          xcodebuild -downloadComponent MetalToolchain
-          echo "✓ Metal Toolchain installed"
+          echo "=== Metal Toolchain (bundled in Xcode 16.4+) ==="
+          # Metal support is now built-in to Xcode 16.4+ SDK
+          # No separate download needed
+          echo "✓ Metal support available in Xcode 16.4+"
 
       - name: Resolve SPM packages
         run: |
