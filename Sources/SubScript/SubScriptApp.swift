@@ -1,4 +1,5 @@
 import SwiftUI
+import AppKit
 
 @main
 struct SubScriptApp: App {
@@ -15,6 +16,13 @@ struct SubScriptApp: App {
         }
         .commands {
             CommandGroup(replacing: .newItem) {}
+            CommandGroup(replacing: .help) {
+                Button("SubScript Help") {
+                    if let url = URL(string: "https://github.com/holywen/SubScript") {
+                        NSWorkspace.shared.open(url)
+                    }
+                }
+            }
             CommandMenu(String(localized: "app_debug_menu")) {
                 Button(String(localized: "app_show_log_panel")) {
                     openWindow(id: "logger")
