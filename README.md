@@ -1,10 +1,10 @@
 # SubScript
 
-> 原生 macOS 字幕生成工具 - 基于 Qwen3-ASR
+> Native macOS subtitle generation tool - powered by Qwen3-ASR
 
-最后更新: 2026-04-30
+Last updated: 2026-05-04
 
-从视频/音频文件自动生成字幕，完全本地运行。核心引擎使用 Qwen3-ASR（中文识别质量优于 Whisper），目标用户为中文 YouTuber、播客创作者、会议记录人员。
+Automatically generate subtitles from video/audio files, fully local. Uses Qwen3-ASR (Chinese recognition quality superior to Whisper), targeting Chinese YouTubers, podcast creators, and meeting note-takers.
 
 ![macOS](https://img.shields.io/badge/macOS-15.0%2B-blue)
 ![Swift](https://img.shields.io/badge/Swift-6.0-blue)
@@ -12,252 +12,214 @@
 
 ---
 
-## 产品特性
+## Features
 
-- **零 Python 依赖** - 全部 Swift 原生实现
-- **Apple Silicon 优先** - MLX 推理，Metal GPU 加速
-- **单例模型** - 全局只加载一份 ASR 模型
-- **流式 UI** - 识别结果逐条推送
-- **字幕烧录** - 硬编码字幕到视频（支持 H.264/H.265/AV1/VP9/ProRes/VideoToolbox）
-- **多格式导出** - 支持 SRT, VTT, TXT, ASS, SSA, SBV, CSV, LRC, TTML 导出
-- **国际化支持** - 完整支持中文与英文界面
+- **Zero Python dependencies** - All native Swift implementation
+- **Apple Silicon first** - MLX inference, Metal GPU acceleration
+- **Singleton model** - Global ASR model loaded only once
+- **Streaming UI** - Recognition results pushed line by line
+- **Subtitle burning** - Hard-code subtitles to video (supports H.264/H.265/AV1/VP9/ProRes/VideoToolbox)
+- **Multi-format export** - Supports SRT, VTT, TXT, ASS, SSA, SBV, CSV, LRC, TTML export
+- **Internationalization** - Full Chinese and English UI support
 
 ---
 
-## 技术架构
+## Technical Architecture
 
-### 技术栈
+### Tech Stack
 
-| 组件 | 技术 | 版本 |
+| Component | Technology | Version |
 |------|------|------|
-| 语言 | Swift | 6.0+ |
-| UI 框架 | SwiftUI + AppKit | macOS 15.0+ |
-| 并发模型 | Swift Structured Concurrency | async/await + Actor |
-| 包管理 | Swift Package Manager | - |
+| Language | Swift | 6.0+ |
+| UI Framework | SwiftUI + AppKit | macOS 15.0+ |
+| Concurrency Model | Swift Structured Concurrency | async/await + Actor |
+| Package Manager | Swift Package Manager | - |
 
-### 核心依赖
+### Core Dependencies
 
-| 模块 | 说明 |
+| Module | Description |
 |------|------|
-| **Qwen3ASR** | ASR 推理（Qwen3-ASR-0.6B / 1.7B） |
-| **SpeechVAD** | 语音活动检测（Silero VAD） |
-| **SpeechUI** | SwiftUI 音频组件 |
-| **AudioCommon** | 共享音频协议和工具 |
-| **FFmpeg** | 字幕烧录（bundled 二进制） |
+| **Qwen3ASR** | ASR inference (Qwen3-ASR-0.6B / 1.7B) |
+| **SpeechVAD** | Voice activity detection (Silero VAD) |
+| **SpeechUI** | SwiftUI audio components |
+| **AudioCommon** | Shared audio protocols and utilities |
+| **FFmpeg** | Subtitle burning (bundled binary) |
 
-### 音频处理
+### Audio Processing
 
-使用系统框架，无第三方依赖：
-- `AVFoundation` - 音频提取、格式转换、视频播放
-- `AVAudioConverter` - 重采样（任意采样率 → 16kHz mono）
+Uses system frameworks, no third-party dependencies:
+- `AVFoundation` - Audio extraction, format conversion, video playback
+- `AVAudioConverter` - Resampling (any sample rate → 16kHz mono)
 
-### 项目结构
+### Project Structure
 
 ```
 SubScript/
-├── project.yml                # XcodeGen 配置
-├── Package.swift            # SPM 配置
-├── build.sh                 # 构建脚本
+├── project.yml                # XcodeGen configuration
+├── Package.swift            # SPM configuration
+├── Makefile                 # Build script
 │
 ├── Sources/SubScript/
-│   ├── SubScriptApp.swift     # @main 入口
-│   ├── ContentView.swift      # 页面路由
+│   ├── SubScriptApp.swift     # @main entry point
+│   ├── ContentView.swift      # Page routing
 │   │
 │   ├── Models/
-│   │   ├── SubtitleSegment.swift    # 字幕数据模型
-│   │   └── TranscriptionJob.swift   # 任务状态模型
+│   │   ├── SubtitleSegment.swift    # Subtitle data model
+│   │   └── TranscriptionJob.swift   # Task status model
 │   │
-│   ├── Pipeline/                     # 核心业务逻辑
-│   │   ├── ModelManager.swift       # 单例模型管理
-│   │   ├── AudioExtractor.swift     # 音频提取 actor
-│   │   ├── TranscriptionPipeline.swift # 转写流水线
-│   │   └── SentenceSplitter.swift   # 断句 + 时间戳对齐
+│   ├── Pipeline/                     # Core business logic
+│   │   ├── ModelManager.swift       # Singleton model manager
+│   │   ├── AudioExtractor.swift     # Audio extraction actor
+│   │   ├── TranscriptionPipeline.swift # Transcription pipeline
+│   │   └── SentenceSplitter.swift   # Sentence splitting + timestamp alignment
 │   │
 │   ├── State/
-│   │   └── AppState.swift           # @Observable 全局状态
+│   │   └── AppState.swift           # @Observable global state
 │   │
 │   ├── Services/
-│   │   ├── ExportService.swift     # SRT/VTT/TXT/ASS 导出
-│   │   └── BurnService.swift        # 字幕烧录
-    │   │
-    │   ├── Store/
-    │   │   └── BurnConfig.swift       # 烧录配置模型
-    │   │
-    │   └── Views/
-│       ├── HomeView.swift          # 首页：拖拽区
-│       ├── ProcessingView.swift    # 进度页
-│       ├── ResultsView.swift      # 结果页 + 字幕编辑器 + 烧录按钮
-│       ├── ExportView.swift       # 导出面板
-│       ├── BurnOptionsView.swift # 烧录配置
-│       └── BurnProgressView.swift  # 烧录进度
+│   │   ├── ExportService.swift     # SRT/VTT/TXT/ASS export
+│   │   └── BurnService.swift        # Subtitle burning
+│   │
+│   ├── Store/
+│   │   └── BurnConfig.swift       # Burn config model
+│   │
+│   └── Views/
+│       ├── HomeView.swift          # Home: drag & drop area
+│       ├── ProcessingView.swift    # Progress page
+│       ├── ResultsView.swift      # Results + subtitle editor + burn button
+│       ├── ExportView.swift       # Export panel
+│       ├── BurnOptionsView.swift # Burn options
+│       └── BurnProgressView.swift  # Burn progress
 │
 ├── Sources/SubScript/Resources/
 │   └── Binaries/
-│       └── ffmpeg                 # 内置 ffmpeg (带 libass)
+│       └── ffmpeg                 # Bundled ffmpeg (with libass)
 │
-└── progress.md                    # 开发进度跟踪
+└── progress.md                    # Development progress tracking
 ```
 
 ---
 
-## 构建流程
+## Build Process
 
-### 环境要求
+### Requirements
 
 - **macOS 15.0+** (Sonoma)
 - **Xcode 16+** (with Metal Toolchain)
 - **Apple Silicon** (M1/M2/M3/M4)
 
-### 快速构建
+### Quick Build
 
 ```bash
-./build.sh all
+make bundle
 ```
 
-这将自动完成：
-1. 安装 Metal Toolchain (~688MB)
-2. 解析 SPM 依赖
-3. 编译 MLX Metal shader library
-4. 编译 SubScript
+This will automatically:
+1. Install Metal Toolchain (~688MB)
+2. Resolve SPM dependencies
+3. Compile MLX Metal shader library
+4. Compile SubScript
 
-### 分步构建
-
-```bash
-# 1. 安装 Metal Toolchain
-./build.sh setup
-
-# 2. 解析依赖
-swift package resolve
-
-# 3. 仅编译 metallib
-./build.sh rebuild-metal
-
-# 4. 构建 release 版本
-./build.sh build
-
-# 5. 构建 debug 版本
-./build.sh debug
-
-# 6. 清理构建产物
-./build.sh clean
-```
-
-### 运行
+### Run
 
 ```bash
-# debug 版本
-.open .build/debug/SubScript
-
-# release 版本
-.open .build/release/SubScript
+# Open release version
+open .build/release/SubScript.app
 ```
 
 ---
 
-## 项目管理
+## Project Management
 
-项目使用 **XcodeGen** 管理，根目录有 `project.yml`。
+Project managed with **XcodeGen**, root directory has `project.yml`.
 
-### 规则
+### Rules
 
-- 新增任何 `.swift` 文件后，必须运行 `xcodegen generate` 重新生成项目
-- 不得手动编辑 `.xcodeproj` 内的任何文件
-- 新的 SPM 依赖在 `project.yml` 的 `packages` 和 `dependencies` 里添加
-- 目录结构变化同步更新 `project.yml` 的 `sources` 配置
-
-### XcodeGen 命令
-
-```bash
-# 安装 XcodeGen
-brew install xcodegen
-
-# 重新生成项目
-xcodegen generate
-
-# 用 Xcode 打开
-open SubScript.xcodeproj
-```
+- After adding any `.swift` file, must run `xcodegen generate` to regenerate project
+- Must not manually edit any files in `.xcodeproj`
+- New SPM dependencies should be added in `project.yml` under `packages` and `dependencies`
+- Directory structure changes should be synced to `project.yml` `sources` config
 
 ---
 
-## 使用说明
+## Usage
 
-### 测试流程
+### Workflow
 
-1. **启动 App** → 打开 HomeView（拖拽区）
-2. **拖入视频** → MP4/MOV/MP3/M4A/WAV/AAC
-3. **等待处理** → ProcessingView 显示进度
-4. **查看结果** → ResultsView 显示视频 + 字幕
-5. **烧录字幕**（可选）→ 点击烧录按钮，硬编码字幕到视频
-6. **导出** → ExportView 选择格式
+1. **Launch App** → Open HomeView (drag & drop area)
+2. **Drag in video** → MP4/MOV/MP3/M4A/WAV/AAC
+3. **Wait for processing** → ProcessingView shows progress
+4. **View results** → ResultsView shows video + subtitles
+5. **Burn subtitles** (optional) → Click burn button, hard-code subtitles to video
+6. **Export** → ExportView select format
 
-### 支持的格式
+### Supported Formats
 
-| 输入 | 支持的操作 |
+| Input | Supported Operations |
 |------|------|
-| MP4 | 字幕识别、烧录、导出 |
-| MOV | 字幕识别、烧录、导出 |
-| M4V | 字幕识别、烧录、导出 |
-| MP3 | 字幕识别、导出 |
-| M4A | 字幕识别、导出 |
-| WAV | 字幕识别、导出 |
-| AAC | 字幕识别、导出 |
+| MP4 | Recognition, burning, export |
+| MOV | Recognition, burning, export |
+| M4V | Recognition, burning, export |
+| MP3 | Recognition, export |
+| M4A | Recognition, export |
+| WAV | Recognition, export |
+| AAC | Recognition, export |
 
-> 注意：烧录功能仅适用于视频文件（MP4/MOV/M4V），音频文件不支持烧录。
+> Note: Burning only works for video files (MP4/MOV/M4V), audio files do not support burning.
 
-### 导出格式
+### Export Formats
 
-- **SRT** - 通用字幕
-- **VTT** - Web 字幕
-- **TXT** - 纯文本
-- **ASS/SSA** - 高级样式
-- **SBV** - SubViewer 格式
-- **CSV** - 表格格式
-- **LRC** - 歌词格式
-- **TTML** - Timed Text 格式
+- **SRT** - Standard subtitles
+- **VTT** - Web subtitles
+- **TXT** - Plain text
+- **ASS/SSA** - Advanced styling
+- **SBV** - SubViewer format
+- **CSV** - Spreadsheet format
+- **LRC** - Lyrics format
+- **TTML** - Timed Text format
 
-### 烧录选项
+### Burn Options
 
-| 选项 | 说明 |
+| Option | Description |
 |------|------|
-| 编码器 | H.264、H.265/HEVC、AV1、VP9、ProRes、VideoToolbox |
-| 质量 | 高质量(CRF 18)、平衡(CRF 23)、小文件(CRF 28)、自定义 |
-| 字体大小 | 12-72pt |
-| 字幕颜色 | 可选 (ColorPicker) |
-| 描边颜色 | 可选 (ColorPicker) |
-| 描边宽度 | 0-5px |
-| 阴影 | 启用/禁用 |
-| 位置 | 底部/顶部/居中 |
-| 输出格式 | MP4/MOV/MKV/WebM |
+| Encoder | H.264, H.265/HEVC, AV1, VP9, ProRes, VideoToolbox |
+| Quality | High quality (CRF 18), Balanced (CRF 23), Small file (CRF 28), Custom |
+| Font size | 12-72pt |
+| Subtitle color | Optional (ColorPicker) |
+| Stroke color | Optional (ColorPicker) |
+| Stroke width | 0-5px |
+| Shadow | Enable/Disable |
+| Position | Bottom/Top/Center |
+| Output format | MP4/MOV/MKV/WebM |
 
 ---
 
-## 已知问题
+## Known Issues
 
-1. **首次运行慢** - 需要下载模型 (~1-2GB)，缓存在 `~/Library/Caches/qwen3-speech/`
-2. **Assets.xcassets** - 需要从原位置迁移到 SPM 标准位置
+1. **Slow first run** - Requires model download (~1-2GB), cached in `~/Library/Caches/qwen3-speech/`
+2. **Assets.xcassets** - Needs migration from original location to SPM standard location
 
 ---
 
-## 开发进度
+## Development Progress
 
-| 阶段 | 状态 |
+| Phase | Status |
 |------|------|
-| Phase 1: 核心流水线验证 | ✅ 完成 |
-| Phase 2: 基础 UI | ✅ 完成 |
-| Phase 3: 编辑器完善 | ✅ 完成 |
-| Phase 3.1: 编辑器 Bugfix | ✅ 完成 |
-| Phase 4: Pro 功能 | ✅ 完成（字幕烧录） |
+| Phase 1: Core pipeline verification | ✅ Complete |
+| Phase 2: Basic UI | ✅ Complete |
+| Phase 3: Editor improvements | ✅ Complete |
+| Phase 3.1: Editor Bugfix | ✅ Complete |
+| Phase 4: Pro features | ✅ Complete (subtitle burning) |
 
-详见 [progress.md](./progress.md)
+See [progress.md](./progress.md) for details.
 
 ---
 
-## 开源致谢
+## Open Source Credits
 
-本 App 基于以下开源项目构建，遵循各自许可证：
+This app is built on the following open source projects, following their respective licenses:
 
-| 项目 | 版权 | 许可证 |
+| Project | Copyright | License |
 |------|------|--------|
 | Qwen3-ASR | © Alibaba Cloud | Apache License 2.0 |
 | speech-swift | © soniqo | MIT License |
@@ -267,6 +229,6 @@ open SubScript.xcodeproj
 
 ---
 
-## 许可证
+## License
 
 Apache License 2.0 - See LICENSE file for details
