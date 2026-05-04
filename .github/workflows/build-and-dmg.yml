@@ -56,7 +56,7 @@ jobs:
         run: |
           echo "=== Building MLX metallib ==="
           cd .build/checkouts/speech-swift
-          swift build -c release --disable-sandbox
+          swift build -c release --disable-sandbox -Xswiftc -strict-concurrency=complete
           chmod +x scripts/build_mlx_metallib.sh
           ./scripts/build_mlx_metallib.sh release
           cd ../..
@@ -65,7 +65,7 @@ jobs:
       - name: Build SubScript
         run: |
           echo "=== Building SubScript ==="
-          swift build -c release --disable-sandbox
+          swift build -c release --disable-sandbox -Xswiftc -strict-concurrency=complete
           cp .build/checkouts/speech-swift/.build/release/mlx.metallib .build/release/
           echo "✓ Build complete"
 
