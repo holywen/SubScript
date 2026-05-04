@@ -4,7 +4,7 @@ import Observation
 import AudioCommon
 import Foundation
 
-public protocol VADModelProtocol {
+public protocol VADModelProtocol: @unchecked Sendable {
     func detectSpeech(audio: [Float], sampleRate: Int) -> [SpeechSegment]
 }
 
