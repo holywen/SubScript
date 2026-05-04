@@ -1,4 +1,5 @@
 import SwiftUI
+import AppKit
 
 struct SettingsView: View {
     @Environment(\.dismiss) var dismiss
@@ -74,6 +75,20 @@ struct SettingsView: View {
                         }
                     }
                     .pickerStyle(.menu)
+                }
+
+                Section {
+                    HStack {
+                        Text("SubScript v1.0.0")
+                            .foregroundColor(.secondary)
+                        Spacer()
+                        Button("GitHub") {
+                            if let url = URL(string: "https://github.com/holywen/SubScript") {
+                                NSWorkspace.shared.open(url)
+                            }
+                        }
+                        .buttonStyle(.link)
+                    }
                 }
             }
             .navigationTitle(Text("settings_title"))
