@@ -1,6 +1,6 @@
 import Observation
-import Qwen3ASR
-import SpeechVAD
+@preconcurrency import Qwen3ASR
+@preconcurrency import SpeechVAD
 import AudioCommon
 import Foundation
 

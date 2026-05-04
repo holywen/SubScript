@@ -60,9 +60,9 @@ struct ResultsView: View {
     
     private func setupTimeObserver() {
         let interval = CMTime(seconds: 0.1, preferredTimescale: 600)
-        player?.addPeriodicTimeObserver(forInterval: interval, queue: .main) { [weak self] time in
-            DispatchQueue.main.async {
-                self?.currentTime = time.seconds
+        player?.addPeriodicTimeObserver(forInterval: interval, queue: .main) { time in
+            Task { @MainActor in
+                self.currentTime = time.seconds
             }
         }
     }
